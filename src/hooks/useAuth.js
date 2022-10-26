@@ -8,29 +8,50 @@ const userType = {
   1: "student",
   2: "gaurdian",
   3: "teacher",
+  4: "principal",
 };
 
 export const AuthProvider = ({ children }) => {
   const [{ token, type, user }, setState] = useState({
     loading: false,
-    token: localStorage.getItem("token") || "5|0FKzhgF2YR2FQ5Up5MpKO4WHttZjH85bWpomuceU",
-    type: "gaurdian",
+    token: localStorage.getItem("token"),
+    type: "principal",
     user: null,
   });
 
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   axios.get("https://floating-harbor-27436.herokuapp.com/api/me", {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   }).then(el => {
 
-  const login = useCallback(() => {
+  //   });
+  // }, []);
+
+  const login = useCallback(async (info) => {
     //
-
-    localStorage.setItem("token", "");
+    axios
+      .post("https://floating-harbor-27436.herokuapp.com/api/login", {
+        ...info,
+      })
+      .then((resp) => {
+        const { token: newToken, user: newUser, term } = resp.data;
+        setState((el) => ({
+          ...el,
+          token: newToken,
+          user: newUser,
+          term: newUser.term,
+          type: userType[newUser.term],
+          authenticated: true,
+        }));
+        localStorage.setItem("token", newToken);
+        navigate("/dashboard");
+      });
   }, []);
 
   const signup = useCallback(async (info) => {
     console.log(info);
-    // localStorage.setItem("token", "");
     axios
       .post("https://floating-harbor-27436.herokuapp.com/api/register", {
         ...info,
@@ -42,9 +63,11 @@ export const AuthProvider = ({ children }) => {
           ...el,
           token: newToken,
           user: newUser,
-          type: userType[term],
+          term: newUser.term,
+          type: userType[newUser.term],
           authenticated: true,
         }));
+        localStorage.setItem("token", newToken);
         navigate("/dashboard");
       });
   }, []);
