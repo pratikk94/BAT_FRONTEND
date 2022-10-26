@@ -28,11 +28,12 @@ import useGetAllUsers from "hooks/principle/useGetAllUsers";
 
 // Data
 import data from "layouts/dashboard/components/UserInfo/data";
+import useGetAllUsersTerm from "hooks/teacher/useGetAllUsersTerm";
 
-function UserInfo({ type, setType }) {
+function UserInfoTerm({ type, setType }) {
   const { columns, rows } = data();
-  const { userInfo, loading } = useGetAllUsersTerm({ term });
-  console.log(userInfo);
+  const { userInfo, loading } = useGetAllUsersTerm({ type: 1 });
+  console.log(type);
   return (
     <Card>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
@@ -67,4 +68,4 @@ function UserInfo({ type, setType }) {
   );
 }
 
-export default UserInfo;
+export default UserInfoTerm;

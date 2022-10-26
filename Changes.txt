@@ -1,0 +1,48 @@
+Features Table
+Student:
+1. A table should be seen shownig marks of students in past 4 terms.
+2. The marks representation should be in a line graph for that subject.
+
+It has two views, 
+1. Main dashboard. API 1 is used in dashboard
+2. Profile page.   API 2 is used in profile page
+
+
+
+APIs used:
+1.  /get_marks_for_term -> 
+        Parameters : studentId,term
+
+2.  /get_student_info/{studentId}
+        Fetches information of student. 
+
+-------------------------------------------------------------------------------
+
+Gaurdian:
+Can see all the students assigned to them. 
+1. /get_marks_for_term ->  (This is a list.)
+        Parameters : studentId,term
+2. /get_marks_for_student -> (This is on click of a element in above list)
+        Parameters : studentId,term,gaurdianId
+
+CAN NOT EDIT THE MARKS.
+
+
+-------------------------------------------------------------------------------
+
+
+Teacher:
+Same as gaurdian but editable.
+
+-------------------------------------------------------------------------------
+
+Principal 
+
+All above features of teacher. 
+Provision to add teacher and gaurdian.
+Provision to assign teahcer and gaurdian to a student.
+
+-------------------------------------------------------------------------------
+
+
+

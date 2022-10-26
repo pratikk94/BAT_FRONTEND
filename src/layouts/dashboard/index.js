@@ -27,6 +27,7 @@ import Footer from "examples/Footer";
 // Data
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import UserInfo from "./components/UserInfo/user_info_student";
+import { useState } from "react";
 
 // Dashboard components
 UserInfo;
