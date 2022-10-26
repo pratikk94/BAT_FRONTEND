@@ -43,7 +43,7 @@ import Profile from "layouts/profile";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
-const routes_teacher = [
+const routesTeacher = [
   {
     type: "collapse",
     name: "Dashboard",
@@ -70,4 +70,4 @@ const routes_teacher = [
   },
 ];
 
-export default routes_teacher;
+export default routesTeacher;

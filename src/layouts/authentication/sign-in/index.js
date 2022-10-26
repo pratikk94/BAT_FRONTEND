@@ -45,6 +45,10 @@ function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [term, setTerm] = useState(1);
 
   return (
     <BasicLayout image={bgImage}>
@@ -111,7 +115,7 @@ function Basic() {
                 Don&apos;t have an account?{" "}
                 <MDTypography
                   component={Link}
-                  to="/authentication/sign-up"
+                  to="/sign-up"
                   variant="button"
                   color="info"
                   fontWeight="medium"

@@ -39,7 +39,7 @@ import themeDark from "assets/theme-dark";
 // Material Dashboard 2 React routes
 // import routes from "routes";
 // import routes from "routes";
-import routesGaurdian from "routesGaurdian";
+import routes from "routes/routes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -47,9 +47,14 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+import useAuth from "hooks/useAuth";
+import Basic from "layouts/authentication/sign-in";
+import Cover from "layouts/authentication/sign-up";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
+  const { type, authenticated, loading } = useAuth();
+  console.log(type);
   const {
     miniSidenav,
     direction,
@@ -139,7 +144,7 @@ export default function App() {
             color={sidenavColor}
             brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
             brandName="React British Asian Trust"
-            routes={routesGaurdian}
+            routes={routes[type]}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
@@ -149,7 +154,9 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
-        {getRoutes(routesGaurdian)}
+        {getRoutes(routes[type])}
+        <Route exact path="/sign-in" element={<Basic />} />
+        <Route exact path="/sign-up" element={<Cover />} />
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </ThemeProvider>

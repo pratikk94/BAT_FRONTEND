@@ -30,8 +30,9 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+import useStudentGetAllMarks from "hooks/student/useStudentGetAllMarks";
+import useStudentGetMarksTermGaurdian from "hooks/student/useStudentGetMarksTermGaurdian";
 
 function Tables() {
   const [columns] = useState([
@@ -41,20 +42,9 @@ function Tables() {
     { Header: "Science", accessor: "science" },
     { Header: "Social Science", accessor: "socialScience" },
   ]);
-  const [rows, setRows] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const { studentMarks: rows, loading } = useStudentGetAllMarks();
+  const { chart } = useStudentGetMarksTermGaurdian();
   const { columns: pColumns, rows: pRows } = projectsTableData();
-
-  useEffect(() => {
-    axios
-      .get("https://floating-harbor-27436.herokuapp.com/api/get_all_student_marks", {
-        headers: { Authorization: "Bearer 5|0FKzhgF2YR2FQ5Up5MpKO4WHttZjH85bWpomuceU" },
-      })
-      .then((resp) => {
-        setRows(resp.data);
-        setLoading(false);
-      });
-  }, []);
 
   return (
     <DashboardLayout>
@@ -78,7 +68,7 @@ function Tables() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                {isLoading ? (
+                {loading ? (
                   <div style={{ textAlign: "center", margin: "1rem" }}>Loading...</div>
                 ) : (
                   <DataTable
@@ -105,18 +95,10 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Projects Table
+                  Charts
                 </MDTypography>
               </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns: pColumns, rows: pRows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
-              </MDBox>
+              <MDBox pt={3}>{chart}</MDBox>
             </Card>
           </Grid>
         </Grid>
