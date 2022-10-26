@@ -28,14 +28,33 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
+// import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Tables() {
-  const { columns, rows } = authorsTableData();
+  const [columns] = useState([
+    { Header: "Computer", accessor: "computer" },
+    { Header: "eEnglish", accessor: "english" },
+    { Header: "Maths", accessor: "maths" },
+    { Header: "Science", accessor: "science" },
+    { Header: "Social Science", accessor: "socialScience" },
+  ]);
+  const [rows, setRows] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const { columns: pColumns, rows: pRows } = projectsTableData();
-  console.log(columns);
-  console.log(rows);
+
+  useEffect(() => {
+    axios
+      .get("https://floating-harbor-27436.herokuapp.com/api/get_all_student_marks", {
+        headers: { Authorization: "Bearer 5|0FKzhgF2YR2FQ5Up5MpKO4WHttZjH85bWpomuceU" },
+      })
+      .then((resp) => {
+        setRows(resp.data);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <DashboardLayout>
@@ -55,17 +74,21 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Authors Table
+                  Student Marks
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
+                {isLoading ? (
+                  <div style={{ textAlign: "center", margin: "1rem" }}>Loading...</div>
+                ) : (
+                  <DataTable
+                    table={{ columns, rows }}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                )}
               </MDBox>
             </Card>
           </Grid>
