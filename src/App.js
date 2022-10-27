@@ -54,7 +54,7 @@ import Cover from "layouts/authentication/sign-up";
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const { type, authenticated, loading } = useAuth();
-  console.log(type);
+
   const {
     miniSidenav,
     direction,

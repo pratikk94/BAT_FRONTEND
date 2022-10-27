@@ -7,7 +7,6 @@ const useGetAllUsersTerm = ({ type }) => {
   const [UserInfoTerm, setUserInfo] = useState([]);
   const { token } = useAuth();
 
-  console.log(token);
   useEffect(() => {
     setLoading(true);
     axios
@@ -25,7 +24,6 @@ const useGetAllUsersTerm = ({ type }) => {
         }
       )
       .then((resp) => {
-        console.log(resp);
         setUserInfo(resp.data);
         setLoading(false);
       });

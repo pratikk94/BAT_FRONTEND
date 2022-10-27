@@ -32,7 +32,7 @@ import data from "layouts/dashboard/components/UserInfo/data";
 function UserInfo({ type, setType }) {
   const { columns, rows } = data();
   const { userInfo, loading } = useGetAllUsers({ type });
-  console.log(userInfo);
+
   return (
     <Card>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>

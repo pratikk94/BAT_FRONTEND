@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signup = useCallback(async (info) => {
-    console.log(info);
     axios
       .post("https://floating-harbor-27436.herokuapp.com/api/register", {
         ...info,
