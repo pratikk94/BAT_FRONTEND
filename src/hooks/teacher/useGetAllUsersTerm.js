@@ -6,14 +6,15 @@ const useGetAllUsersTerm = ({ type }) => {
   const [loading, setLoading] = useState(true);
   const [UserInfoTerm, setUserInfo] = useState([]);
   const { token } = useAuth();
-  console.log(type);
+
+  console.log(token);
   useEffect(() => {
     setLoading(true);
     axios
       .post(
-        `http://localhost:8000/api/get_marks_for_students_and_gaurdian_term`,
+        "https://floating-harbor-27436.herokuapp.com/api/get_marks_for_students_and_gaurdian_term",
         {
-          headers: { Authorization: "10|jVDOUdcGgeNPiM1DPrBxCJgol4ysMsmiMIa3IMYs" },
+          headers: { Authorization: `Bearer ${token}` },
         },
         {
           data: {
@@ -24,6 +25,7 @@ const useGetAllUsersTerm = ({ type }) => {
         }
       )
       .then((resp) => {
+        console.log(resp);
         setUserInfo(resp.data);
         setLoading(false);
       });
