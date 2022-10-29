@@ -17,7 +17,7 @@ import { useMemo, useEffect, useState } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
-
+import Select from "react-select"
 // react-table components
 import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy } from "react-table";
 
@@ -26,6 +26,8 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+
 import Icon from "@mui/material/Icon";
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -34,6 +36,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDPagination from "components/MDPagination";
+import useGetAllUsers from "hooks/principle/useGetAllUsers";
 
 // Material Dashboard 2 React example components
 import DataTableHeadCell from "examples/Tables/DataTable/DataTableHeadCell";
@@ -47,7 +50,14 @@ function DataTable({
   pagination,
   isSorted,
   noEndBorder,
+  userInfo,
+  handleUpdate,
+  typeOfLogin,
+edit,setEdit,teacherOptions,gaurdianOptions,
+setShowChart,
 }) {
+  console.log("typeOfLogin",typeOfLogin)
+
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
@@ -80,12 +90,10 @@ function DataTable({
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
 
-  // Set the default value for the entries per page when component mounts
-  useEffect(() => setPageSize(defaultValue || 10), [defaultValue]);
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
-
+console.log(rows,"rows")
   // Render the paginations
   const renderPagination = pageOptions.map((option) => (
     <MDPagination
@@ -110,6 +118,8 @@ function DataTable({
 
   // Search input value state
   const [search, setSearch] = useState(globalFilter);
+  const [selectedGaurdian, setSelectedGaurdian] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState([]);
 
   // Search input state handle
   const onSearchChange = useAsyncDebounce((value) => {
@@ -144,9 +154,21 @@ function DataTable({
   } else {
     entriesEnd = pageSize * (pageIndex + 1);
   }
+const handleEdit=(e,key,data)=>{
+  console.log("keyeyey",key)
+  setSelectedGaurdian([])
+  setSelectedTeacher([])
+
+  setEdit(key)
+  
+}
+
+
+
+
 
   return (
-    <TableContainer sx={{ boxShadow: "none" }}>
+    <TableContainer sx={{ boxShadow: "none" }}  style={{height:"500px"}}>
       {entriesPerPage || canSearch ? (
         <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
           {entriesPerPage && (
@@ -201,21 +223,45 @@ function DataTable({
           ))}
         </MDBox>
         <TableBody {...getTableBodyProps()}>
-          {page.map((row, key) => {
-            prepareRow(row);
-            return (
-              <TableRow {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <DataTableBodyCell
-                    noBorder={noEndBorder && rows.length - 1 === key}
-                    align={cell.column.align ? cell.column.align : "left"}
-                    {...cell.getCellProps()}
-                  >
-                    {cell.render("Cell")}
-                  </DataTableBodyCell>
-                ))}
-              </TableRow>
-            );
+          {userInfo.map((row, key) => {
+          return(
+            <TableRow key={key}>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.email}</TableCell>
+
+              {edit&&edit==row.id?
+              <>
+         <TableCell><Select options={gaurdianOptions} value={selectedGaurdian} onChange={(val)=>setSelectedGaurdian(val)}/></TableCell>  
+         {typeOfLogin==="principal"? <TableCell><Select options={teacherOptions} value={selectedTeacher}  onChange={(val)=>setSelectedTeacher(val)}/></TableCell>
+        :               <TableCell>{row.teacher&&row.teacher.name}</TableCell>
+
+        }  
+            </>
+            :
+            <>
+                       <TableCell>{row.gaurdian&&row.gaurdian.name}</TableCell>
+              <TableCell>{row.teacher&&row.teacher.name}</TableCell>
+            </>
+            }
+   
+              <TableCell>{row.updated_at}</TableCell>
+              {console.log("hellloooo",typeOfLogin,(["teacher","principal"].includes(typeOfLogin.trim())))}
+              {["teacher","principal"].includes(typeOfLogin.trim())&&
+              <TableCell>
+              {edit&&edit==row.id? <button onClick={(e)=>handleUpdate(row,selectedGaurdian,selectedTeacher)} >Update</button>:
+                <button onClick={(e)=>handleEdit(e,row.id,row)}>Edit</button>}</TableCell>
+          }
+
+          {
+            ["student"].includes(typeOfLogin.trim())&&
+            <TableCell>
+            <button onClick={(e)=>setShowChart(row)}>Show Chart</button>
+            </TableCell>
+
+          }
+
+            </TableRow>
+          )
           })}
         </TableBody>
       </Table>

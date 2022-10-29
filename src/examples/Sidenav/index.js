@@ -104,6 +104,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         </Link>
       ) : (
         <NavLink key={key} to={route}>
+          {console.log("returnValue", href, name, key)}
           <SidenavCollapse name={name} icon={icon} active={key === collapseName} />
         </NavLink>
       );

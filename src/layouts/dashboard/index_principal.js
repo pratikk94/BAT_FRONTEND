@@ -22,6 +22,7 @@ import { useState } from "react";
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
   const [type, setType] = useState("student");
+  
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -29,7 +30,8 @@ function Dashboard() {
         <MDBox>
           <Grid item xs={12}>
             <Grid>
-              <UserInfo type={type} setType={setType} />
+              <UserInfo type={type} setType={setType} typeOfLogin={localStorage.getItem("type")
+} />
             </Grid>
           </Grid>
         </MDBox>

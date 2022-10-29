@@ -26,13 +26,13 @@ import Footer from "examples/Footer";
 
 // Data
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-import UserInfo from "./components/UserInfo/user_info_student";
+import UserInfo from "layouts/dashboard/components/UserInfo";
 import { useState } from "react";
 
 // Dashboard components
 UserInfo;
 
-function Dashboard() {
+function DataGrid() {
   const { sales, tasks } = reportsLineChartData;
   const [type, setType] = useState("student");
 
@@ -43,7 +43,8 @@ function Dashboard() {
         <MDBox>
           <Grid>
             <Grid>
-              <UserInfo type={type} setType={setType} />
+              <UserInfo type={type} setType={setType} typeOfLogin={localStorage.getItem("type")
+}/>
             </Grid>
           </Grid>
         </MDBox>
@@ -53,4 +54,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DataGrid;

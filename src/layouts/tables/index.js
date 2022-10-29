@@ -30,15 +30,11 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useStudentGetAllMarks from "hooks/student/useStudentGetAllMarks";
 import useStudentGetMarksTermGaurdian from "hooks/student/useStudentGetMarksTermGaurdian";
-import axios from "axios";
-import useAuth from "hooks/useAuth";
 
 function Tables() {
-  const { token } = useAuth();
-
   const [columns] = useState([
     { Header: "Computer", accessor: "computer" },
     { Header: "eEnglish", accessor: "english" },
@@ -49,25 +45,6 @@ function Tables() {
   const { studentMarks: rows, loading } = useStudentGetAllMarks();
   const { chart } = useStudentGetMarksTermGaurdian();
   const { columns: pColumns, rows: pRows } = projectsTableData();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await axios.post(
-        "https://floating-harbor-27436.herokuapp.com/api/get_marks_for_term",
-        {
-          studentId: 1,
-          term: 4,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(data.data);
-    };
-    fetchData();
-  }, [token]);
 
   return (
     <DashboardLayout>

@@ -8,19 +8,25 @@ const useGetAllUsers = ({ type }) => {
   const { token } = useAuth();
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`https://floating-harbor-27436.herokuapp.com/api/get_all_${type}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((resp) => {
-        setUserInfo(resp.data);
-        setLoading(false);
-      });
+    callAPi()
   }, [token, type]);
+
+  const callAPi=()=>{
+    axios
+    .get(`https://floating-harbor-27436.herokuapp.com/api/get_all_${type}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((resp) => {
+      setUserInfo(resp.data);
+      setLoading(false);
+    });
+  }
 
   return {
     userInfo,
     loading,
+    setLoading,
+    callAPi
   };
 };
 

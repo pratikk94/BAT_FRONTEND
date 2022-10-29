@@ -17,9 +17,61 @@ import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 
 import Header from "./components/Header";
+import Sidenav from "examples/Sidenav";
+import Configurator from "examples/Configurator";
+import routes from "routes/routes";
+import Icon from "@mui/material/Icon";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import brandWhite from "assets/images/logo-ct.png";
 
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 function Overview() {
+  const [controller, dispatch] = useMaterialUIController();
+  const typeOflogin=localStorage.getItem("type")
+  const {
+    miniSidenav,
+    direction,
+    layout,
+    openConfigurator,
+    sidenavColor,
+    transparentSidenav,
+    whiteSidenav,
+    darkMode,
+  } = controller;
+  const configsButton = (
+    <MDBox
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      width="3.25rem"
+      height="3.25rem"
+      bgColor="white"
+      shadow="sm"
+      borderRadius="50%"
+      position="fixed"
+      right="2rem"
+      bottom="2rem"
+      zIndex={99}
+      color="dark"
+      sx={{ cursor: "pointer" }}
+    //   onClick={handleConfiguratorOpen}
+    >
+      <Icon fontSize="small" color="inherit">
+        settings
+      </Icon>
+    </MDBox>
+  );
   return (
+    <>
+          <Sidenav
+        color={sidenavColor}
+        brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+        brandName="React British Asian Trust"
+        routes={routes[typeOflogin]}
+
+      />
+      <Configurator />
+      {configsButton}
     <DashboardLayout>
       <Header>
         <MDBox mb={2} />
@@ -73,6 +125,7 @@ function Overview() {
       </Header>
       <Footer />
     </DashboardLayout>
+    </>
   );
 }
 

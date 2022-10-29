@@ -70,12 +70,20 @@ export default function data() {
   );
 
   return {
-    columns: [
-      { Header: "Name", accessor: "name", width: "30%", align: "left" },
-      { Header: "Email", accessor: "email", width: "20%", align: "left" },
-      { Header: "Phone number", accessor: "phone_no", align: "right" },
-      { Header: "Date", accessor: "created_at", align: "right" },
-      { Header: "Edit", align: "center" },
+    columns: ["teacher","principal"].includes(localStorage.getItem("type").trim())?[
+      { Header: "Name", accessor: "name",align: "left" },
+      { Header: "Email Address", accessor: "email", align: "left" },
+      { Header: "Guardian", accessor: "Guardian", align: "left" },
+      { Header: "Teacher", accessor: "phone_no", align: "left" },
+      { Header: "Date", accessor: "created_at", align: "left" },
+      { Header: "Edit", align: "left" },
+    ]:[
+      { Header: "Name", accessor: "name",align: "left" },
+      { Header: "Email Address", accessor: "email", align: "left" },
+      { Header: "Guardian", accessor: "Guardian", align: "left" },
+      { Header: "Teacher", accessor: "phone_no", align: "left" },
+      { Header: "Date", accessor: "created_at", align: "left" },
+      { Header: "Chart", align: "left" },
     ],
 
     rows: [

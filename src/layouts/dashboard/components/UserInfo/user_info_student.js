@@ -33,7 +33,7 @@ import useGetAllUsersTerm from "hooks/teacher/useGetAllUsersTerm";
 function UserInfoTerm({ type, setType }) {
   const { columns, rows } = data();
   const { userInfo, loading } = useGetAllUsersTerm({ type: 1 });
-
+  console.log(type);
   return (
     <Card>
       <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>

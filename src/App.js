@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect } from "react";
+import "./App.css";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -50,11 +51,14 @@ import brandDark from "assets/images/logo-ct-dark.png";
 import useAuth from "hooks/useAuth";
 import Basic from "layouts/authentication/sign-in";
 import Cover from "layouts/authentication/sign-up";
-
+import Dashboard from "layouts/dashboard/Dashboard";
+import Overview from "layouts/profile/index";
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
   const { type, authenticated, loading } = useAuth();
-
+  console.log(type);
+  const typeOflogin = localStorage.getItem("type");
+  console.log("djdjdjjdjdj", typeOflogin);
   const {
     miniSidenav,
     direction,
@@ -69,20 +73,20 @@ export default function App() {
   const { pathname } = useLocation();
 
   // Open sidenav when mouse enter on mini sidenav
-  const handleOnMouseEnter = () => {
-    if (miniSidenav && !onMouseEnter) {
-      setMiniSidenav(dispatch, false);
-      setOnMouseEnter(true);
-    }
-  };
+  // const handleOnMouseEnter = () => {
+  //   if (miniSidenav && !onMouseEnter) {
+  //     setMiniSidenav(dispatch, false);
+  //     setOnMouseEnter(true);
+  //   }
+  // };
 
   // Close sidenav when mouse leave mini sidenav
-  const handleOnMouseLeave = () => {
-    if (onMouseEnter) {
-      setMiniSidenav(dispatch, true);
-      setOnMouseEnter(false);
-    }
-  };
+  // const handleOnMouseLeave = () => {
+  //   if (onMouseEnter) {
+  //     setMiniSidenav(dispatch, true);
+  //     setOnMouseEnter(false);
+  //   }
+  // };
 
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
@@ -138,26 +142,16 @@ export default function App() {
   return (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="React British Asian Trust"
-            routes={routes[type]}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
-          <Configurator />
-          {configsButton}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
+
+      {/* {layout === "vr" && <Configurator />} */}
       <Routes>
-        {getRoutes(routes[type])}
         <Route exact path="/sign-in" element={<Basic />} />
         <Route exact path="/sign-up" element={<Cover />} />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+        <Route exact path="/dashboard/*" element={<Dashboard />} />
+        <Route exact path="/profile" element={<Overview />} />
+
+        {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
       </Routes>
     </ThemeProvider>
   );

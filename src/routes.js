@@ -1,6 +1,6 @@
-import Dashboard from "layouts/dashboard/index_gaurdian";
+// import Dashboard from "layouts/dashboard/index_gaurdian";
 import Profile from "layouts/profile";
-
+import Dashboard from "layouts/dashboard/Dashboard";
 // @mui icons
 import Icon from "@mui/material/Icon";
 

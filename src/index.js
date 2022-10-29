@@ -22,6 +22,7 @@ import { MaterialUIControllerProvider } from "context";
 import { AuthProvider } from "hooks/useAuth";
 
 import App from "./App";
+// localStorage.setItem("type", "student")
 
 ReactDOM.render(
   <BrowserRouter>

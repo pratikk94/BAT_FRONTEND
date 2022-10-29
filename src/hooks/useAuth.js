@@ -46,11 +46,14 @@ export const AuthProvider = ({ children }) => {
           authenticated: true,
         }));
         localStorage.setItem("token", newToken);
+        localStorage.setItem("type", userType[newUser.term]);
+        console.log("userType[newUser.term]",userType[newUser.term])
         navigate("/dashboard");
       });
   }, []);
 
   const signup = useCallback(async (info) => {
+    console.log(info);
     axios
       .post("https://floating-harbor-27436.herokuapp.com/api/register", {
         ...info,

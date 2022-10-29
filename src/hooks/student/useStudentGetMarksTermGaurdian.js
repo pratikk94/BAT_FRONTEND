@@ -22,6 +22,8 @@ const useStudentGetMarksTermGaurdian = () => {
       });
   }, [token]);
 
+  console.log(studentMarks);
+
   const chart = loading ? <p>loading</p> : <p>chart</p>;
 
   return {
